@@ -1,5 +1,7 @@
 package org;
 
+import java.util.Scanner;
+
 public class Board {
 	private Piece[][] matrix = new Piece[8][8];
 	
@@ -57,8 +59,12 @@ public class Board {
 			}
 		}
 	}
+	
 	public void print(){
+		System.out.println("  | |a||b||c||d||e||f||g||h|");
+		System.out.println("  |-------------------------");
 		for (int l=0; l<8; l++){
+			System.out.print("|"+l+"| ");
 			for (int c=0; c<8; c++){
 				if(matrix[l][c]!= null){
 					System.out.print("|"+matrix[l][c].toString()+"|");
@@ -70,4 +76,39 @@ public class Board {
 			System.out.println();
 		}
 	}
+	
+	public boolean play(String player){
+		Scanner in = new Scanner(System.in);
+		String move;
+		boolean valid = false;
+		while (!valid){
+			System.out.println("Informe a letra e o número da peça");
+			move = in.nextLine();
+			int movy = this.getChar(move);
+			int movx = this.getNumber(move);
+			if ((movx >= 0 && movx <8) 
+					&& (movy >= 0 && movy <8)
+					&& (matrix[movx][movy]!= null) 
+					&& (matrix[movx][movy].getColor()==player)){
+				valid = true;
+				System.out.println(matrix[movx][movy].toString());
+			}
+			else System.out.println("A posição é inválida");
+		}		
+		return false;
+	}
+	
+	public int getChar(String move){
+		char character = move.charAt(0);
+		int number = java.lang.Character.getNumericValue(character);
+		return number-10;
+	}
+
+
+	public int getNumber(String move){
+		char character = move.charAt(1);
+		int number = java.lang.Character.getNumericValue(character);
+		return number;
+	}
+	
 }
