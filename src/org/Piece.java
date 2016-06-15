@@ -14,7 +14,11 @@ public abstract class Piece {
 		this.minY = minY;
 		this.maxY = maxY;
 	}
-
+	
+	public boolean validadeMove(int fromX, int fromY, int toX, int toY){
+		return true;
+	}
+	
 	public String getColor() {
 		return color;
 	}

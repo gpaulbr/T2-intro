@@ -63,23 +63,34 @@ public class Chess {
 		bd = new Board(matrix);
 	}
 
+	public void moveTo(int row, int collumn, int rowP, int collumnP){
+		if (bd.getMatrix()[collumnP][rowP].validadeMove(rowP, collumnP, collumn, row)){
+			System.out.println("Ã‰ valido");
+		}
+		else System.out.println("NÃ£o Ã© valido");
+	}
+	
 	public boolean play(String player){
 		Scanner in = new Scanner(System.in);
+		String pos;
 		String move;
 		boolean valid = false;
 		while (!valid){
-			System.out.println("Informe a letra e o número da peça");
-			move = in.nextLine();
-			int l = this.getChar(move);
-			int c = this.getNumber(move);
+			System.out.println("Informe a letra e o nï¿½mero da peï¿½a");
+			pos = in.nextLine();
+			int l = this.getChar(pos);
+			int c = this.getNumber(pos);
 			if ((l >= 0 && l <8) 
 					&& (c >= 0 && c <8)
 					&& (bd.getMatrix()[c][l]!= null) 
 					&& (bd.getMatrix()[c][l].getColor()==player)){
 				valid = true;
 				System.out.println(bd.getMatrix()[c][l].toString());
+				System.out.println("Informe para onde deseja mover a peÃ§a");
+				move = in.nextLine();
+				this.moveTo(this.getNumber(move), this.getChar(move), l, c);
 			}
-			else System.out.println("A posição é inválida");
+			else System.out.println("A posiï¿½ï¿½o ï¿½ invï¿½lida");
 		}		
 		return false;
 	}
@@ -89,7 +100,6 @@ public class Chess {
 		int number = java.lang.Character.getNumericValue(character);
 		return number-10;
 	}
-
 
 	public int getNumber(String move){
 		char character = move.charAt(1);
