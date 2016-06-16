@@ -14,6 +14,12 @@ public class Pawn extends Piece {
 		else if (this.getColor() == "black" && fromX == toX && (toY-fromY == 1)){
 			return true;
 		}
+		else if (this.getColor() == "white" && fromX == toX && (fromY-toY == 2) && toY == 4){
+			return true;
+		}
+		else if (this.getColor() == "black" && fromX == toX && (toY-fromY == 2) && toY == 3){
+			return true;
+		}
 		else return false;
 	}
 	
