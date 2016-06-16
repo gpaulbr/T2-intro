@@ -11,6 +11,10 @@ public class Board {
 		return this.matrix;
 	}
 	
+	public Piece[][] getBoard(){
+		return this.matrix;
+	}
+	
 	public void print(){
 		System.out.println("  | |a||b||c||d||e||f||g||h|");
 		System.out.println("  |-------------------------");
