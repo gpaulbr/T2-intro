@@ -19,7 +19,7 @@ public class Board {
 		this.matrix[posy][posx] = null;
 	}
 	
-	public void print(){
+	public void print() {
 		System.out.println("  | |a||b||c||d||e||f||g||h|");
 		System.out.println("  |-------------------------");
 		for (int l=0; l<8; l++){

@@ -65,8 +65,57 @@ public class Chess {
 	}
 
 	public boolean moveTo(int toX, int toY, int x, int y){
-		if (bd.getMatrix()[y][x].validateMove(x, y, toX, toY)){
-			bd.setPos(toX, toY, bd.getMatrix()[y][x]);
+		Piece p = bd.getMatrix()[y][x];
+		if (p.validateMove(x, y, toX, toY)) {
+			
+			try {
+				if (bd.getMatrix()[toY][toX].getColor() == bd.getMatrix()[y][x].getColor()){
+					System.out.println("Posição inválida");
+					return false;
+				}
+			} catch(Exception e) { }
+			
+			
+			if (p instanceof Rook || p instanceof Pawn) {
+				int minX;
+				int maxX;
+				int minY;
+				int maxY;
+				
+				if (x < toX) {
+					minX = x;
+					maxX = toX;
+				} else {
+					minX = toX;
+					maxX = x;
+				}
+				
+				for (int i = minX+1; i < maxX; i++) {
+					
+					if (bd.getMatrix()[y][i] != null) {
+						System.out.println("Posição inválida");
+						return false;
+					}
+				}
+				
+				if (y < toY) {
+					minY = y;
+					maxY = toY;
+				} else {
+					minY = toY;
+					maxY = y;
+				}
+				
+				for (int i = minY+1; i < maxY; i++) {
+					
+					if (bd.getMatrix()[i][x] != null) {
+						System.out.println("Posição inválida");
+						return false;
+					}
+				}
+			}
+			
+			bd.setPos(toX, toY, p);
 			bd.delPos(x, y);
 			return true;
 		}
