@@ -10,9 +10,9 @@ public class Board {
 	public Piece[][] getMatrix(){
 		return this.matrix;
 	}
-	
-	public Piece[][] getBoard(){
-		return this.matrix;
+		
+	public void setPos(int posx, int posy, Piece piece){
+		this.matrix[posx][posy] = piece;
 	}
 	
 	public void print(){

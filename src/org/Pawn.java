@@ -20,7 +20,7 @@ public class Pawn extends Piece {
 		else if (this.getColor() == "black" && fromX == toX && (toY-fromY == 2) && toY == 3){
 			return true;
 		}
-		else return false;
+		return false;
 	}
 	
 	@Override

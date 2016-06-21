@@ -16,7 +16,7 @@ public abstract class Piece {
 	}
 	
 	public boolean validadeMove(int fromX, int fromY, int toX, int toY){
-		return true;
+		return false;
 	}
 	
 	public String getColor() {

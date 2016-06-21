@@ -1,6 +1,7 @@
 package org;
 
 import java.util.Scanner;
+import java.io.IOException;
 
 public class Chess {
 	private Board bd;
@@ -63,11 +64,14 @@ public class Chess {
 		bd = new Board(matrix);
 	}
 
-	public void moveTo(int row, int collumn, int rowP, int collumnP){
+	public boolean moveTo(int row, int collumn, int rowP, int collumnP){
 		if (bd.getMatrix()[collumnP][rowP].validadeMove(rowP, collumnP, collumn, row)){
-			System.out.println("É valido");
+			bd.setPos(row, collumn, bd.getMatrix()[collumnP][rowP]);
+			bd.setPos(rowP, collumnP, null);
+			return true;
 		}
-		else System.out.println("Não é valido");
+		System.out.println("Não é valido");
+		return false;
 	}
 	
 	public boolean play(String player){
@@ -84,11 +88,10 @@ public class Chess {
 					&& (c >= 0 && c <8)
 					&& (bd.getMatrix()[c][l]!= null) 
 					&& (bd.getMatrix()[c][l].getColor()==player)){
-				valid = true;
 				System.out.println(bd.getMatrix()[c][l].toString());
 				System.out.println("Informe para onde deseja mover a peça");
 				move = in.nextLine();
-				this.moveTo(this.getNumber(move), this.getChar(move), l, c);
+				valid = this.moveTo(this.getNumber(move), this.getChar(move), l, c);
 			}
 			else System.out.println("A posi��o � inv�lida");
 		}		
@@ -107,13 +110,39 @@ public class Chess {
 		return number;
 	}
 	
-	public void start(){
+	public void start() throws IOException{
 		boolean end = false;
 		this.populateBoard();
 		while(!end){
+			Runtime.getRuntime().exec("clear");
 			this.bd.print();
 			end = this.play("white");
+//			clearConsole();
+			Runtime.getRuntime().exec("clear");
+			this.bd.print();
 			end = this.play("black");
+//			clearConsole();
 		}
+	}
+	
+	public final static void clearConsole()
+	{
+	    try
+	    {
+	        final String os = System.getProperty("os.name");
+
+	        if (os.contains("Windows"))
+	        {
+	            Runtime.getRuntime().exec("cls");
+	        }
+	        else
+	        {
+	            Runtime.getRuntime().exec("clear");
+	        }
+	    }
+	    catch (final Exception e)
+	    {
+	        System.out.println("Wasn't able to clear the console");
+	    }
 	}
 }
