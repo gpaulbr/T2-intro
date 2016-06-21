@@ -3,7 +3,7 @@ package org;
 public class King extends Piece {
 
 	public King(String color) {
-		super(color, 0, 0, 0, 0);
+		super(color);
 	}
 	@Override
 	public String toString(){

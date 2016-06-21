@@ -64,12 +64,13 @@ public class Chess {
 		bd = new Board(matrix);
 	}
 
-	public boolean moveTo(int row, int collumn, int rowP, int collumnP){
-		if (bd.getMatrix()[collumnP][rowP].validadeMove(rowP, collumnP, collumn, row)){
-			bd.setPos(row, collumn, bd.getMatrix()[collumnP][rowP]);
-			bd.setPos(rowP, collumnP, null);
+	public boolean moveTo(int toX, int toY, int x, int y){
+		if (bd.getMatrix()[y][x].validateMove(x, y, toX, toY)){
+			bd.setPos(toX, toY, bd.getMatrix()[y][x]);
+			bd.delPos(x, y);
 			return true;
 		}
+		
 		System.out.println("Não é valido");
 		return false;
 	}
@@ -82,16 +83,16 @@ public class Chess {
 		while (!valid){
 			System.out.println("Informe a letra e o n�mero da pe�a");
 			pos = in.nextLine();
-			int l = this.getChar(pos);
-			int c = this.getNumber(pos);
+			int c = this.getChar(pos);
+			int l = this.getNumber(pos);
 			if ((l >= 0 && l <8) 
 					&& (c >= 0 && c <8)
-					&& (bd.getMatrix()[c][l]!= null) 
-					&& (bd.getMatrix()[c][l].getColor()==player)){
-				System.out.println(bd.getMatrix()[c][l].toString());
+					&& (bd.getMatrix()[l][c] != null) 
+					&& (bd.getMatrix()[l][c].getColor() == player)){
+				System.out.println(bd.getMatrix()[l][c].toString());
 				System.out.println("Informe para onde deseja mover a peça");
 				move = in.nextLine();
-				valid = this.moveTo(this.getNumber(move), this.getChar(move), l, c);
+				valid = this.moveTo(this.getChar(move), this.getNumber(move), c, l);
 			}
 			else System.out.println("A posi��o � inv�lida");
 		}		

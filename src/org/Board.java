@@ -12,7 +12,11 @@ public class Board {
 	}
 		
 	public void setPos(int posx, int posy, Piece piece){
-		this.matrix[posx][posy] = piece;
+		this.matrix[posy][posx] = piece;
+	}
+	
+	public void delPos(int posx, int posy){
+		this.matrix[posy][posx] = null;
 	}
 	
 	public void print(){
