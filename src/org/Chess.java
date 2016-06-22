@@ -154,8 +154,7 @@ public class Chess {
 						}
 					}
 				}
-			}
-					
+			}	
 			bd.setPos(toX, toY, p);
 			bd.delPos(x, y);
 			return true;

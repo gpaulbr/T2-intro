@@ -17,6 +17,7 @@ public class Bishop extends Piece {
 	
 	@Override
 	public String toString(){
-		return "B";
+		if (this.getColor() == "black") return "B";
+		else return "b";
 	}
 }

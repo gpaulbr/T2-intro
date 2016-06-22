@@ -21,6 +21,7 @@ public class Knight extends Piece{
 	
 	@Override
 	public String toString(){
-		return "H";
+		if (this.getColor() == "black") return "H";
+		else return "h";
 	}
 }
