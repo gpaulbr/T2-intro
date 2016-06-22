@@ -65,6 +65,7 @@ public class Chess {
 	}
 
 	public boolean moveTo(int toX, int toY, int x, int y){
+//		System.out.println(toX +" "+ toY +" "+ x +" "+ y);
 		Piece p = bd.getMatrix()[y][x];
 		if (p.validateMove(x, y, toX, toY)) {
 			
@@ -76,7 +77,7 @@ public class Chess {
 			} catch(Exception e) { }
 			
 			
-			if (p instanceof Rook || p instanceof Pawn) {
+			if (p instanceof Rook || p instanceof Pawn || p instanceof Queen) {
 				int minX;
 				int maxX;
 				int minY;
@@ -115,6 +116,46 @@ public class Chess {
 				}
 			}
 			
+			if (p instanceof Bishop || p instanceof Queen) {
+				
+				if (x > toX && y > toY) {
+					for (int i = 1; i < (x - toX); i++) {
+						if (bd.getMatrix()[y-i][x-i] != null) {
+							System.out.println("Posição inválida");
+							return false;
+						}
+					}
+				}
+				
+				if (x > toX && y < toY) {
+					for (int i = 1; i < (x - toX); i++) {
+						if (bd.getMatrix()[y+i][x-i] != null) {
+							System.out.println("Posição inválida");
+							return false;
+						}
+					}
+				}
+				
+				if (x < toX && y < toY) {
+					for (int i = 1; i < (toX - x); i++) {
+						if (bd.getMatrix()[y+i][x+i] != null) {
+							System.out.println("Posição inválida");
+							return false;
+						}
+					}
+				}
+				
+				if (x < toX && y > toY) {
+					
+					for (int i = 1; i < (toX - x); i++) {
+						if (bd.getMatrix()[y-i][x+i] != null) {
+							System.out.println("Posição inválida");
+							return false;
+						}
+					}
+				}
+			}
+					
 			bd.setPos(toX, toY, p);
 			bd.delPos(x, y);
 			return true;
