@@ -205,11 +205,9 @@ public class Chess {
 		boolean end = false;
 		this.populateBoard();
 		while(!end){
-			Runtime.getRuntime().exec("clear");
 			this.bd.print();
 			end = this.play("white");
 //			clearConsole();
-			Runtime.getRuntime().exec("clear");
 			this.bd.print();
 			end = this.play("black");
 //			clearConsole();
@@ -220,16 +218,8 @@ public class Chess {
 	{
 	    try
 	    {
-	        final String os = System.getProperty("os.name");
+	    	Runtime.getRuntime().exec("cls");
 
-	        if (os.contains("Windows"))
-	        {
-	            Runtime.getRuntime().exec("cls");
-	        }
-	        else
-	        {
-	            Runtime.getRuntime().exec("clear");
-	        }
 	    }
 	    catch (final Exception e)
 	    {
