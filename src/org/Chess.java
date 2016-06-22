@@ -77,7 +77,7 @@ public class Chess {
 			} catch(Exception e) { }
 			
 			
-			if (p instanceof Rook || p instanceof Pawn || p instanceof Queen) {
+			if (p instanceof Rook || p instanceof Pawn || p instanceof Queen || p instanceof King) {
 				int minX;
 				int maxX;
 				int minY;
@@ -116,7 +116,7 @@ public class Chess {
 				}
 			}
 			
-			if (p instanceof Bishop || p instanceof Queen) {
+			if (p instanceof Bishop || p instanceof Queen || p instanceof King) {
 				
 				if (x > toX && y > toY) {
 					for (int i = 1; i < (x - toX); i++) {
