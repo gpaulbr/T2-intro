@@ -1,7 +1,17 @@
 package org;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class Chess {
 	private Board bd;
@@ -9,53 +19,55 @@ public class Chess {
 	public void populateBoard(){
 		Piece[][] matrix = new Piece[8][8];
 		
-		for (int l=0; l<8; l++){
-			for (int c=0; c<8; c++){
-				if (l==1){
+		for (int l=0; l<8; l++) {
+			
+			for (int c=0; c<8; c++) {
+				
+				if (l==1) {
 					Pawn p = new Pawn("black");
 					matrix [l][c] = p;
 				}
-				else if (l==6){
+				else if (l==6) {
 					Pawn p = new Pawn("white");
 					matrix [l][c] = p;
 				}
-				else if((c==0||c==7)&&l==0){
+				else if((c==0||c==7)&&l==0) {
 					Rook r = new Rook("black");
 					matrix [l][c] = r;
 				}
-				else if((c==0||c==7)&&l==7){
+				else if((c==0||c==7)&&l==7) {
 					Rook r = new Rook("white");
 					matrix [l][c] = r;
 				}
-				else if((c==1||c==6)&&l==0){
+				else if((c==1||c==6)&&l==0) {
 					Knight k = new Knight("black");
 					matrix [l][c] = k;
 				}
-				else if((c==1||c==6)&&l==7){
+				else if((c==1||c==6)&&l==7) {
 					Knight k = new Knight("white");
 					matrix [l][c] = k;
 				}
-				else if((c==2||c==5)&&l==0){
+				else if((c==2||c==5)&&l==0) {
 					Bishop b = new Bishop("black");
 					matrix [l][c] = b;
 				}
-				else if((c==2||c==5)&&l==7){
+				else if((c==2||c==5)&&l==7) {
 					Bishop b = new Bishop("white");
 					matrix [l][c] = b;
 				}
-				else if(c==3&&l==0){
+				else if(c==4&&l==0) {
 					King k = new King("black");
 					matrix [l][c] = k;
 				}
-				else if(c==4&&l==7){
+				else if(c==3&&l==7) {
 					King k = new King("white");
 					matrix [l][c] = k;
 				}
-				else if(c==4&&l==0){
+				else if(c==3&&l==0) {
 					Queen q = new Queen("black");
 					matrix [l][c] = q;
 				}
-				else if(c==3&&l==7){
+				else if(c==4&&l==7) {
 					Queen q = new Queen("white");
 					matrix [l][c] = q;
 				}
@@ -64,13 +76,12 @@ public class Chess {
 		bd = new Board(matrix);
 	}
 
-	public boolean moveTo(int toX, int toY, int x, int y){
-//		System.out.println(toX +" "+ toY +" "+ x +" "+ y);
+	public boolean moveTo(int toX, int toY, int x, int y) {
 		Piece p = bd.getMatrix()[y][x];
 		if (p.validateMove(x, y, toX, toY)) {
 			
 			try {
-				if (bd.getMatrix()[toY][toX].getColor() == bd.getMatrix()[y][x].getColor()){
+				if (bd.getMatrix()[toY][toX].getColor() == bd.getMatrix()[y][x].getColor()) {
 					System.out.println("Posição inválida");
 					return false;
 				}
@@ -125,14 +136,14 @@ public class Chess {
 			if (p instanceof Bishop || p instanceof Queen || p instanceof King || (p instanceof Pawn && p.isAttack())) {
 				
 				if (x > toX && y > toY) {
-					System.out.println("podes crer 1");
+					
 					if (p instanceof Pawn) {
 						if (bd.getMatrix()[y-1][x-1] == null) {
 							System.out.println("Posição inválida");
 							return false;
 						}
 					}
-					
+
 					for (int i = 1; i < (x - toX); i++) {
 						if (bd.getMatrix()[y-i][x-i] != null) {
 							System.out.println("Posição inválida");
@@ -142,7 +153,7 @@ public class Chess {
 				}
 				
 				if (x > toX && y < toY) {
-					System.out.println("podes crer 2 ");
+					
 					if (p instanceof Pawn) {
 						if (bd.getMatrix()[y+1][x-1] == null) {
 							System.out.println("Posição inválida");
@@ -159,7 +170,7 @@ public class Chess {
 				}
 				
 				if (x < toX && y < toY) {
-					System.out.println("podes crer 3");
+					
 					if (p instanceof Pawn) {
 						if (bd.getMatrix()[y+1][x+1] == null) {
 							System.out.println("Posição inválida");
@@ -177,7 +188,7 @@ public class Chess {
 				}
 				
 				if (x < toX && y > toY) {
-					System.out.println("podes crer 4 ");
+					
 					if (p instanceof Pawn) {
 						if (bd.getMatrix()[y-1][x+1] == null) {
 							System.out.println("Posição inválida");
@@ -200,6 +211,8 @@ public class Chess {
 			
 			bd.setPos(toX, toY, p);
 			bd.delPos(x, y);
+			this.save();
+			this.load();
 			return true;
 		}
 		
@@ -207,16 +220,20 @@ public class Chess {
 		return false;
 	}
 	
-	public boolean play(String player){
+	public boolean play(String player) {
+		
 		Scanner in = new Scanner(System.in);
 		String pos;
 		String move;
+		
 		boolean valid = false;
-		while (!valid){
+		while (!valid) {
+			
 			System.out.println("Informe a peça que deseja mover");
 			pos = in.nextLine();
 			int c = this.getChar(pos);
 			int l = this.getNumber(pos);
+			
 			if ((l >= 0 && l <8) 
 					&& (c >= 0 && c <8)
 					&& (bd.getMatrix()[l][c] != null) 
@@ -243,31 +260,122 @@ public class Chess {
 		return number;
 	}
 	
-	public void start() throws IOException{
+	public void start(boolean pop) throws IOException{
 		boolean end = false;
-		this.populateBoard();
-		while(!end){
+		int i = 0;
+		
+		if (pop) {
+			this.populateBoard();
+		} else {
+			this.load();
+		}
+		
+		
+		while(!end) {
+			
 			this.bd.print();
-			System.out.println("Peças brancas:");
-			end = this.play("white");
-//			clearConsole();
-			this.bd.print();
-			System.out.println("Peças pretas:");
-			end = this.play("black");
-//			clearConsole();
+			
+			if (i%2 == 0) {
+				System.out.println("Peças brancas:");
+				end = this.play("white");
+			} else { 
+				System.out.println("Peças pretas:");
+				end = this.play("black");
+			}
+			
+			i++;
 		}
 	}
-	
-	public final static void clearConsole()
-	{
-	    try
-	    {
-	    	Runtime.getRuntime().exec("cls");
 
-	    }
-	    catch (final Exception e)
-	    {
-	        System.out.println("Wasn't able to clear the console");
-	    }
+	private void load() {
+		char matriz[][] = new char[8][8];
+		int pos = 0;
+		String a = null;
+		Piece[][] pieceMatrix = new Piece[8][8];
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("save.txt"));
+			a = br.readLine();
+		} catch (Exception e) {
+			System.out.println("Não foi possivel carregar o jogo");
+		}
+		
+		
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				matriz[i][j] = a.charAt(pos);
+				pos++;
+			}
+		}
+		
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				char peca = matriz[i][j];
+				switch (peca) {
+					case 'p':
+						pieceMatrix[i][j] = new Pawn("white");
+						break;
+					case 'P':
+						pieceMatrix[i][j] = new Pawn("black");
+						break;
+					case 'k':
+						pieceMatrix[i][j] = new King("white");
+						break;
+					case 'K':
+						pieceMatrix[i][j] = new King("black");
+						break;
+					case 'r':
+						pieceMatrix[i][j] = new Rook("white");
+						break;
+					case 'R':
+						pieceMatrix[i][j] = new Rook("black");
+						break;
+					case 'b':
+						pieceMatrix[i][j] = new Bishop("white");
+						break;
+					case 'B':
+						pieceMatrix[i][j] = new Bishop("black");
+						break;
+					case 'q':
+						pieceMatrix[i][j] = new Queen("white");
+						break;
+					case 'Q':
+						pieceMatrix[i][j] = new Queen("black");
+						break;
+					case 'h':
+						pieceMatrix[i][j] = new Knight("white");
+						break;
+					case 'H':
+						pieceMatrix[i][j] = new Knight("black");
+						break;
+				}
+			}
+			System.out.println();
+		}
+		bd = new Board(pieceMatrix);
+	}
+	
+	private void save() {
+		List<String> lines;
+		Path file = Paths.get("save.txt");
+		String save = "";
+		 
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (bd.getMatrix()[i][j] == null) {
+					save += "-";
+				} else {
+					save += bd.getMatrix()[i][j].toString();
+				}
+			}
+		}
+		
+		lines = Arrays.asList(save);
+		
+		try {
+			Files.write(file, lines, Charset.forName("UTF-8"));
+		} catch (IOException e) {
+			System.out.println("Não foi possivel salvar o jogo");
+		}
 	}
 }
