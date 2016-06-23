@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class App {
 	
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws Exception {
 		Scanner in = new Scanner(System.in);
 		Chess chess = new Chess();
 		int op;
@@ -26,7 +26,21 @@ public class App {
 				
 				case 2:
 					menu = false;
-					chess.start(false);
+					try {
+						chess.start(false);
+					} catch (Exception e) {
+						System.out.println("Nenhum jogo encontrado! Para começar um novo jogo digite 1, para sair digite 0");
+						op = in.nextInt();
+						switch(op) {
+							case 1:
+								chess.start(true);
+								break;
+							case 2:
+								break;
+						}
+						
+					}
+					
 					break;
 				
 				case 0:

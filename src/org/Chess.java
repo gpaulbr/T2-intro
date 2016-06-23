@@ -212,7 +212,6 @@ public class Chess {
 			bd.setPos(toX, toY, p);
 			bd.delPos(x, y);
 			this.save();
-			this.load();
 			return true;
 		}
 		
@@ -229,19 +228,24 @@ public class Chess {
 		boolean valid = false;
 		while (!valid) {
 			
-			System.out.println("Informe a peça que deseja mover");
+			System.out.println("Informe a peça que deseja mover, ou digite sair para sair");
 			pos = in.nextLine();
 			int c = this.getChar(pos);
 			int l = this.getNumber(pos);
-			
-			if ((l >= 0 && l <8) 
+			if (pos.equals("sair")) {
+				java.lang.System.exit(1);
+			} else if ((l >= 0 && l <8) 
 					&& (c >= 0 && c <8)
 					&& (bd.getMatrix()[l][c] != null) 
 					&& (bd.getMatrix()[l][c].getColor() == player)){
 				System.out.println(bd.getMatrix()[l][c].toString());
-				System.out.println("Informe para onde deseja mover a peça");
+				System.out.println("Informe para onde deseja mover a peça, ou digite sair para sair");
 				move = in.nextLine();
-				valid = this.moveTo(this.getChar(move), this.getNumber(move), c, l);
+				if (move.equals("sair")) {
+					java.lang.System.exit(1);
+				} else {
+					valid = this.moveTo(this.getChar(move), this.getNumber(move), c, l);
+				}
 			}
 			else System.out.println("A posição é inválida");
 		}		
@@ -260,7 +264,7 @@ public class Chess {
 		return number;
 	}
 	
-	public void start(boolean pop) throws IOException{
+	public void start(boolean pop) throws Exception {
 		boolean end = false;
 		int i = 0;
 		
@@ -287,19 +291,14 @@ public class Chess {
 		}
 	}
 
-	private void load() {
+	private void load() throws Exception {
 		char matriz[][] = new char[8][8];
 		int pos = 0;
 		String a = null;
 		Piece[][] pieceMatrix = new Piece[8][8];
-		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("save.txt"));
-			a = br.readLine();
-		} catch (Exception e) {
-			System.out.println("Não foi possivel carregar o jogo");
-		}
-		
+	
+		BufferedReader br = new BufferedReader(new FileReader("save.txt"));
+		a = br.readLine();
 		
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -350,7 +349,6 @@ public class Chess {
 						break;
 				}
 			}
-			System.out.println();
 		}
 		bd = new Board(pieceMatrix);
 	}
