@@ -2,46 +2,9 @@ package org;
 
 public class Board {
 	private Piece[][] matrix = new Piece[8][8];
-	private int wKingX, wKingY, bKingX, bKingY;
 	
 	public Board(Piece[][] matrix) {
 		this.matrix = matrix;
-		this.wKingX = 4;
-		this.wKingY = 7;
-		this.bKingX = 3;
-		this.bKingY = 0;
-	}
-
-	public int getwKingX() {
-		return wKingX;
-	}
-
-	public void setwKingX(int wKingX) {
-		this.wKingX = wKingX;
-	}
-
-	public int getwKingY() {
-		return wKingY;
-	}
-
-	public void setwKingY(int wKingY) {
-		this.wKingY = wKingY;
-	}
-
-	public int getbKingX() {
-		return bKingX;
-	}
-
-	public void setbKingX(int bKingX) {
-		this.bKingX = bKingX;
-	}
-
-	public int getbKingY() {
-		return bKingY;
-	}
-
-	public void setbKingY(int bKingY) {
-		this.bKingY = bKingY;
 	}
 
 	public Piece[][] getMatrix() {

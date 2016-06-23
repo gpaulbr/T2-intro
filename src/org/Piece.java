@@ -7,6 +7,14 @@ public abstract class Piece {
 		this.color = color;
 	}
 	
+	public boolean isAttack() {
+		return false;
+	}
+	
+	public void setAttack(boolean attack) {
+		
+	}
+	
 	public boolean validateMove(int fromX, int fromY, int toX, int toY){
 		return false;
 	}

@@ -77,7 +77,7 @@ public class Chess {
 			} catch(Exception e) { }
 			
 			
-			if (p instanceof Rook || p instanceof Pawn || p instanceof Queen || p instanceof King) {
+			if (p instanceof Rook || (p instanceof Pawn && !(p.isAttack())) || p instanceof Queen || p instanceof King) {
 				int minX;
 				int maxX;
 				int minY;
@@ -116,9 +116,17 @@ public class Chess {
 				}
 			}
 			
-			if (p instanceof Bishop || p instanceof Queen || p instanceof King) {
+			if (p instanceof Bishop || p instanceof Queen || p instanceof King || (p instanceof Pawn && p.isAttack())) {
 				
 				if (x > toX && y > toY) {
+					System.out.println("podes crer 1");
+					if (p instanceof Pawn) {
+						if (bd.getMatrix()[y-1][x-1] == null) {
+							System.out.println("Posição inválida");
+							return false;
+						}
+					}
+					
 					for (int i = 1; i < (x - toX); i++) {
 						if (bd.getMatrix()[y-i][x-i] != null) {
 							System.out.println("Posição inválida");
@@ -128,6 +136,14 @@ public class Chess {
 				}
 				
 				if (x > toX && y < toY) {
+					System.out.println("podes crer 2 ");
+					if (p instanceof Pawn) {
+						if (bd.getMatrix()[y+1][x-1] == null) {
+							System.out.println("Posição inválida");
+							return false;
+						}
+					}
+					
 					for (int i = 1; i < (x - toX); i++) {
 						if (bd.getMatrix()[y+i][x-i] != null) {
 							System.out.println("Posição inválida");
@@ -137,7 +153,16 @@ public class Chess {
 				}
 				
 				if (x < toX && y < toY) {
+					System.out.println("podes crer 3");
+					if (p instanceof Pawn) {
+						if (bd.getMatrix()[y+1][x+1] == null) {
+							System.out.println("Posição inválida");
+							return false;
+						}
+					}
+					
 					for (int i = 1; i < (toX - x); i++) {
+						
 						if (bd.getMatrix()[y+i][x+i] != null) {
 							System.out.println("Posição inválida");
 							return false;
@@ -146,6 +171,13 @@ public class Chess {
 				}
 				
 				if (x < toX && y > toY) {
+					System.out.println("podes crer 4 ");
+					if (p instanceof Pawn) {
+						if (bd.getMatrix()[y-1][x+1] == null) {
+							System.out.println("Posição inválida");
+							return false;
+						}
+					}
 					
 					for (int i = 1; i < (toX - x); i++) {
 						if (bd.getMatrix()[y-i][x+i] != null) {
@@ -155,6 +187,11 @@ public class Chess {
 					}
 				}
 			}	
+			
+			if (p instanceof Pawn) {
+				bd.getMatrix()[y][x].setAttack(false);
+			}
+			
 			bd.setPos(toX, toY, p);
 			bd.delPos(x, y);
 			return true;
@@ -170,7 +207,7 @@ public class Chess {
 		String move;
 		boolean valid = false;
 		while (!valid){
-			System.out.println("Informe a letra e o n�mero da pe�a");
+			System.out.println("Informe a peça que deseja mover");
 			pos = in.nextLine();
 			int c = this.getChar(pos);
 			int l = this.getNumber(pos);
@@ -183,7 +220,7 @@ public class Chess {
 				move = in.nextLine();
 				valid = this.moveTo(this.getChar(move), this.getNumber(move), c, l);
 			}
-			else System.out.println("A posi��o � inv�lida");
+			else System.out.println("A posição é inválida");
 		}		
 		return false;
 	}
@@ -205,9 +242,11 @@ public class Chess {
 		this.populateBoard();
 		while(!end){
 			this.bd.print();
+			System.out.println("Peças brancas:");
 			end = this.play("white");
 //			clearConsole();
 			this.bd.print();
+			System.out.println("Peças pretas:");
 			end = this.play("black");
 //			clearConsole();
 		}
