@@ -114,6 +114,12 @@ public class Chess {
 						return false;
 					}
 				}
+				if (p instanceof Pawn && !(p.isAttack())) {
+					if (bd.getMatrix()[toY][toX] != null){
+						System.out.println("Posição inválida");
+						return false; 
+					}
+				}
 			}
 			
 			if (p instanceof Bishop || p instanceof Queen || p instanceof King || (p instanceof Pawn && p.isAttack())) {
