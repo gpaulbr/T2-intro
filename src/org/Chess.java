@@ -211,7 +211,11 @@ public class Chess {
 			
 			bd.setPos(toX, toY, p);
 			bd.delPos(x, y);
-			this.save();
+			
+			if (p.getColor() == "black") {
+				this.save();
+			}
+			
 			return true;
 		}
 		
